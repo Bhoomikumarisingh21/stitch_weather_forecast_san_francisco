@@ -21,7 +21,7 @@ A premium, clean, and highly responsive Weather Forecasting application built us
 
 ---
 
-## 🔥 Key Features (Isme kya-kya hai?)
+## 🔥 Key Features
 
 * **🌍 Global City Search:** Search and jump to any city worldwide (e.g., London, San Francisco) to instantly view its current weather.
 * **⏳ 24-Hour Hourly Forecast:** Track a detailed hour-by-hour breakdown of temperature and weather conditions to plan your day seamlessly.
@@ -31,7 +31,7 @@ A premium, clean, and highly responsive Weather Forecasting application built us
 
 ---
 
-## 🛠️ Tech Stack & Tools Used (Kya use hua hai?)
+## 🛠️ Tech Stack & Tools Used
 
 * **Frontend Framework:** Flutter 
 * **Programming Language:** Dart
@@ -40,7 +40,7 @@ A premium, clean, and highly responsive Weather Forecasting application built us
 
 ---
 
-## 💡 Why is this App Useful? (Ye kitna kaam ka hai?)
+## 💡 Why is this App Useful?
 
 1. **Daily Planning:** Users can check precise hourly conditions before heading out, ensuring they never get caught unprepared in bad weather.
 2. **Travel Companion:** Perfect for tracking destination climates in advance to streamline travel and packing plans.
