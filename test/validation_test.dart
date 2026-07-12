@@ -94,7 +94,7 @@ void main() {
     });
 
     test('Human names should be blocked', () {
-      final names = ['Rahul', 'John', 'Priya', 'Amit', 'Smith', 'Johnson', 'Rohan', 'Sneha'];
+      final names = ['Rahul', 'John', 'Priya', 'Amit', 'Smith', 'Johnson', 'Rohan', 'Sneha', 'Bhoomi', 'Kumari', 'Singh'];
       for (var name in names) {
         expect(LocationService.isValid(name), isFalse, reason: 'Failed to block human name: $name');
       }
