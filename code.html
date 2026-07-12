@@ -190,7 +190,7 @@
 <span class="material-symbols-outlined text-primary text-8xl" data-icon="rainy" style="font-variation-settings: 'FILL' 1;">rainy</span>
 </div>
 <div class="flex flex-col items-center">
-<span class="font-display-lg text-display-temp text-on-surface">14°C</span>
+<span class="font-display-lg text-6xl sm:text-display-temp text-on-surface">14°C</span>
 <span class="font-headline-lg text-headline-lg text-on-surface">Rainy</span>
 <p class="font-body-md text-body-md text-outline">Feels like 12°C</p>
 </div>
@@ -229,7 +229,7 @@
 </div>
 </section>
 <!-- Daily Forecast -->
-<section class="glass-surface rounded-xl p-card-padding space-y-stack-md">
+<section class="glass-surface rounded-xl p-4 sm:p-card-padding space-y-stack-md">
 <h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest px-1">Next 7 Days</h3>
 <div class="space-y-4">
 <!-- Day Row Template -->
@@ -271,9 +271,9 @@
 </div>
 </section>
 <!-- Detail Grid (2x2) -->
-<section class="grid grid-cols-2 gap-gutter">
+<section class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-gutter">
 <!-- AQI -->
-<div class="glass-surface rounded-xl p-card-padding space-y-stack-sm flex flex-col justify-between h-40">
+<div class="glass-surface rounded-xl p-4 sm:p-card-padding space-y-stack-sm flex flex-col justify-between h-40">
 <div class="flex items-center gap-2 text-on-surface-variant">
 <span class="material-symbols-outlined text-sm" data-icon="air">air</span>
 <span class="font-label-sm text-label-sm">AQI</span>
@@ -287,7 +287,7 @@
 <p class="text-[10px] text-outline">Rain is clearing the air. Ideal quality.</p>
 </div>
 <!-- Wind -->
-<div class="glass-surface rounded-xl p-card-padding space-y-stack-sm flex flex-col justify-between h-40">
+<div class="glass-surface rounded-xl p-4 sm:p-card-padding space-y-stack-sm flex flex-col justify-between h-40">
 <div class="flex items-center gap-2 text-on-surface-variant">
 <span class="material-symbols-outlined text-sm" data-icon="airwave">airwave</span>
 <span class="font-label-sm text-label-sm">Wind</span>
@@ -301,7 +301,7 @@
 </div>
 </div>
 <!-- Humidity -->
-<div class="glass-surface rounded-xl p-card-padding space-y-stack-sm flex flex-col justify-between h-40">
+<div class="glass-surface rounded-xl p-4 sm:p-card-padding space-y-stack-sm flex flex-col justify-between h-40">
 <div class="flex items-center gap-2 text-on-surface-variant">
 <span class="material-symbols-outlined text-sm" data-icon="humidity_percentage">humidity_percentage</span>
 <span class="font-label-sm text-label-sm">Humidity</span>
@@ -310,7 +310,7 @@
 <p class="text-[10px] text-outline">High humidity due to active rainfall.</p>
 </div>
 <!-- Visibility -->
-<div class="glass-surface rounded-xl p-card-padding space-y-stack-sm flex flex-col justify-between h-40">
+<div class="glass-surface rounded-xl p-4 sm:p-card-padding space-y-stack-sm flex flex-col justify-between h-40">
 <div class="flex items-center gap-2 text-on-surface-variant">
 <span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
 <span class="font-label-sm text-label-sm">Visibility</span>
@@ -322,7 +322,7 @@
 </div>
 </section>
 <!-- Sun & Moon Visualization -->
-<section class="glass-surface rounded-xl p-card-padding space-y-stack-md">
+<section class="glass-surface rounded-xl p-4 sm:p-card-padding space-y-stack-md">
 <div class="flex items-center gap-2 text-on-surface-variant">
 <span class="material-symbols-outlined text-sm" data-icon="wb_twilight">wb_twilight</span>
 <h3 class="font-label-sm text-label-sm uppercase tracking-widest">Sunset &amp; Sunrise</h3>
