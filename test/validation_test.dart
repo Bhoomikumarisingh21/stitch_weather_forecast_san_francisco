@@ -144,7 +144,7 @@ void main() {
       // 3. Invalid inputs should throw validation error
       expect(
         () => store.fetchWeather('Rahul', temp: 25.0, condition: 'Sunny'),
-        throwsA(isA<Exception>().having((e) => e.toString(), 'message', contains('Please enter a valid city or location.'))),
+        throwsA(isA<Exception>().having((e) => e.toString(), 'message', contains('Invalid location. Please enter a valid city, state, or country.'))),
       );
     });
   });

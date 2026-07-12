@@ -198,7 +198,7 @@ class _CityListScreenState extends State<CityListScreen> {
                               final cityName = nameController.text.trim();
                               if (cityName.isEmpty) {
                                 setDialogState(() {
-                                  errorMessage = "Please enter a valid city or location.";
+                                  errorMessage = "Invalid location. Please enter a valid city, state, or country.";
                                 });
                                 return;
                               }
@@ -219,7 +219,7 @@ class _CityListScreenState extends State<CityListScreen> {
                               // 2. Local validation before calling the API
                               if (!LocationService.isValid(cityName)) {
                                 setDialogState(() {
-                                  errorMessage = "Please enter a valid city or location.";
+                                  errorMessage = "Invalid location. Please enter a valid city, state, or country.";
                                 });
                                 return;
                               }

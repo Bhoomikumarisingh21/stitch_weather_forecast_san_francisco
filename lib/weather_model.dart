@@ -92,7 +92,7 @@ class LocationService {
     'andhra pradesh', 'arunachal pradesh', 'assam', 'bihar', 'chhattisgarh', 'goa', 'gujarat', 'haryana', 'himachal pradesh', 'jharkhand', 'karnataka', 'kerala', 'madhya pradesh', 'maharashtra', 'manipur', 'meghalaya', 'mizoram', 'nagaland', 'odisha', 'punjab', 'rajasthan', 'sikkim', 'tamil nadu', 'telangana', 'tripura', 'uttarakhand', 'uttar pradesh', 'west bengal', 'andaman and nicobar islands', 'chandigarh', 'dadra and nagar haveli and daman and diu', 'lakshadweep', 'delhi', 'puducherry', 'jammu and kashmir', 'ladakh',
 
     // Major Indian Cities
-    'mumbai', 'pune', 'nagpur', 'nashik', 'aurangabad', 'navi mumbai', 'thane', 'kalyan', 'dombivli', 'vasai', 'virar', 'kolkata', 'howrah', 'durgapur', 'asansol', 'siliguri', 'chennai', 'coimbatore', 'madurai', 'tiruchirappalli', 'salem', 'bengaluru', 'bangalore', 'mysore', 'hubli', 'dharwad', 'mangalore', 'belgaum', 'hyderabad', 'warangal', 'nizamabad', 'karimnagar', 'visakhapatnam', 'vijayawada', 'guntur', 'nellore', 'kurnool', 'tirupati', 'ahmedabad', 'surat', 'vadodara', 'rajkot', 'bhavnagar', 'jamnagar', 'jaipur', 'jodhpur', 'kota', 'bikaner', 'ajmer', 'udaipur', 'bhopal', 'indore', 'jabalpur', 'gwalior', 'ujjain', 'raipur', 'bilaspur', 'durg', 'patna', 'gaya', 'bhagalpur', 'muzaffarpur', 'ranchi', 'jamshedpur', 'dhanbad', 'bokaro', 'bhubaneswar', 'cuttack', 'rourkela', 'puri', 'lucknow', 'kanpur', 'ghaziabad', 'agra', 'meerut', 'varanasi', 'prayagraj', 'allahabad', 'noida', 'greater noida', 'bareilly', 'aligarh', 'moradabad', 'gorakhpur', 'jhansi', 'dehradun', 'haridwar', 'rishikesh', 'haldwani', 'shimla', 'dharamshala', 'solan', 'amritsar', 'ludhiana', 'jalandhar', 'patiala', 'bathinda', 'srinagar', 'jammu', 'leh', 'kargil', 'guwahati', 'silchar', 'dibrugarh', 'jorhat', 'itanagar', 'shillong', 'tura', 'imphal', 'kohima', 'dimapur', 'aizawl', 'agartala', 'gangtok', 'panaji', 'margao', 'vasco da gama', 'port blair', 'kavaratti', 'daman', 'diu', 'silvassa', 'karaikal', 'mahe', 'yanam',
+    'mumbai', 'pune', 'nagpur', 'nashik', 'aurangabad', 'navi mumbai', 'thane', 'kalyan', 'dombivli', 'vasai', 'virar', 'kolkata', 'howrah', 'durgapur', 'asansol', 'siliguri', 'chennai', 'coimbatore', 'madurai', 'tiruchirappalli', 'salem', 'bengaluru', 'bangalore', 'mysore', 'hubli', 'dharwad', 'mangalore', 'belgaum', 'hyderabad', 'warangal', 'nizamabad', 'karimnagar', 'visakhapatnam', 'vijayawada', 'guntur', 'nellore', 'kurnool', 'tirupati', 'ahmedabad', 'surat', 'vadodara', 'rajkot', 'bhavnagar', 'jamnagar', 'jaipur', 'jodhpur', 'kota', 'bikaner', 'ajmer', 'udaipur', 'bhopal', 'indore', 'jabalpur', 'gwalior', 'ujjain', 'raipur', 'bilaspur', 'durg', 'patna', 'gaya', 'bhagalpur', 'muzaffarpur', 'ranchi', 'jamshedpur', 'dhanbad', 'bokaro', 'bhubaneswar', 'cuttack', 'rourkela', 'puri', 'lucknow', 'kanpur', 'ghaziabad', 'agra', 'meerut', 'varanasi', 'prayagraj', 'allahabad', 'noida', 'greater noida', 'bareilly', 'aligarh', 'moradabad', 'gorakhpur', 'jhansi', 'dehradun', 'haridwar', 'rishikesh', 'haldwani', 'shimla', 'dharamshala', 'solan', 'amritsar', 'ludhiana', 'jalandhar', 'patiala', 'bathinda', 'srinagar', 'jammu', 'leh', 'kargil', 'guwahati', 'silchar', 'dibrugarh', 'jorhat', 'itanagar', 'shillong', 'tura', 'imphal', 'kohima', 'dimapur', 'aizawl', 'agartala', 'gangtok', 'panaji', 'margao', 'vasco da gama', 'port blair', 'kavaratti', 'daman', 'diu', 'silvassa', 'karaikal', 'mahe', 'yanam', 'gurugram',
 
     // US States
     'alabama', 'alaska', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'delaware', 'florida', 'georgia', 'hawaii', 'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maine', 'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi', 'missouri', 'montana', 'nebraska', 'nevada', 'new hampshire', 'new jersey', 'new mexico', 'new york', 'north carolina', 'north dakota', 'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhode island', 'south carolina', 'south dakota', 'tennessee', 'texas', 'utah', 'vermont', 'virginia', 'washington', 'west virginia', 'wisconsin', 'wyoming',
@@ -149,39 +149,7 @@ class LocationService {
       return true;
     }
 
-    // 3. Check block list
-    if (_commonNames.contains(lower)) {
-      return false;
-    }
-    final words = lower.split(RegExp(r"[\s,\-\.\'\(\)]+")).where((w) => w.isNotEmpty).toList();
-    for (var word in words) {
-      if (_commonNames.contains(word)) {
-        return false;
-      }
-    }
-
-    // 4. Perform character validation (using exclusion strategy)
-    if (RegExp(r'\d').hasMatch(trimmed)) return false;
-    final disallowedPattern = RegExp(r'[0-9@!#\$%^&\*_+=\[\]{}|\\\/;:"<>?`~]');
-    if (disallowedPattern.hasMatch(trimmed)) return false;
-
-    if (trimmed.length < 2 || trimmed.length > 50) return false;
-
-    // 5. Detect obvious keyboard patterns and gibberish
-    final gibberishPatterns = ['qwerty', 'asdfgh', 'zxcvbn', 'qwert', 'asdf', 'yuiop', 'hjkl', 'bnm'];
-    for (var pat in gibberishPatterns) {
-      if (lower.contains(pat)) {
-        return false;
-      }
-    }
-
-    if (RegExp(r'(.)\1{4,}').hasMatch(trimmed)) return false;
-
-    // Must contain some letters (not purely punctuation symbols)
-    final onlyPunctuation = RegExp(r"^[\s,\-\.\'\(\)]+$");
-    if (onlyPunctuation.hasMatch(trimmed)) return false;
-
-    return true;
+    return false;
   }
 }
 
@@ -248,7 +216,7 @@ class WeatherStore extends ChangeNotifier {
     // 1. Normalize input
     final trimmedCity = cityName.trim().replaceAll(RegExp(r'\s+'), ' ');
     if (trimmedCity.isEmpty) {
-      throw Exception("Please enter a valid city or location.");
+      throw Exception("Invalid location. Please enter a valid city, state, or country.");
     }
     final normalizedName = LocationService.normalizeLocationName(trimmedCity);
 
@@ -262,7 +230,7 @@ class WeatherStore extends ChangeNotifier {
 
     // 3. Perform other validation (allow list, block list, etc.)
     if (!LocationService.isValid(trimmedCity)) {
-      throw Exception("Please enter a valid city or location.");
+      throw Exception("Invalid location. Please enter a valid city, state, or country.");
     }
 
     // Simulate network call latency
@@ -270,7 +238,7 @@ class WeatherStore extends ChangeNotifier {
 
     // 4. Validate API response
     if (normalizedName.isEmpty || !LocationService.isValid(normalizedName)) {
-      throw Exception("Please enter a valid city or location.");
+      throw Exception("Invalid location. Please enter a valid city, state, or country.");
     }
 
     return WeatherData(
