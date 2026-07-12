@@ -220,7 +220,7 @@ class WeatherHomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 8.0),
                     SizedBox(
-                      width: 65.0,
+                      width: 110.0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -231,7 +231,7 @@ class WeatherHomeScreen extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const SizedBox(width: 8.0),
+                          const SizedBox(width: 4.0),
                           Text(
                             '${store.convertTemp(daily.minTemp)}°',
                             style: AppTypography.bodyMedium.copyWith(

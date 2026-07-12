@@ -58,6 +58,8 @@ class _CityListScreenState extends State<CityListScreen> {
     final nameController = TextEditingController();
     String selectedCondition = 'Rainy';
     double tempVal = 15.0;
+    bool isSaving = false;
+    String? errorMessage;
 
     showDialog(
       context: context,
@@ -85,6 +87,7 @@ class _CityListScreenState extends State<CityListScreen> {
                       style: AppTypography.bodyMedium.copyWith(color: AppColors.onSurface),
                       decoration: InputDecoration(
                         labelText: 'City Name',
+                        errorText: errorMessage,
                         labelStyle: const TextStyle(color: AppColors.outline),
                         hintText: 'e.g. Seattle',
                         hintStyle: TextStyle(color: AppColors.outline.withOpacity(0.5)),
@@ -113,7 +116,7 @@ class _CityListScreenState extends State<CityListScreen> {
                         value: tempVal,
                         min: -10,
                         max: 40,
-                        onChanged: (val) {
+                        onChanged: isSaving ? null : (val) {
                           setDialogState(() {
                             tempVal = val;
                           });
@@ -146,7 +149,7 @@ class _CityListScreenState extends State<CityListScreen> {
                               child: Text(value),
                             );
                           }).toList(),
-                          onChanged: (String? newValue) {
+                          onChanged: isSaving ? null : (String? newValue) {
                             if (newValue != null) {
                               setDialogState(() {
                                 selectedCondition = newValue;
@@ -162,66 +165,91 @@ class _CityListScreenState extends State<CityListScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: isSaving ? null : () => Navigator.pop(context),
                           child: Text(
                             'Cancel',
-                            style: TextStyle(color: AppColors.onSurfaceVariant.withOpacity(0.7)),
+                            style: TextStyle(
+                              color: isSaving 
+                                  ? AppColors.onSurfaceVariant.withOpacity(0.3)
+                                  : AppColors.onSurfaceVariant.withOpacity(0.7)
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8.0),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: AppColors.onPrimary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                        if (isSaving)
+                          const SizedBox(
+                            width: 24.0,
+                            height: 24.0,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
                             ),
-                            elevation: 0,
-                          ),
-                          onPressed: () {
-                            if (nameController.text.trim().isNotEmpty) {
+                          )
+                        else
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: AppColors.onPrimary,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0)),
+                              elevation: 0,
+                            ),
+                            onPressed: () async {
                               final cityName = nameController.text.trim();
-                              // Build complete mock data for new city
-                              final newCityData = WeatherData(
-                                cityName: cityName,
-                                temp: tempVal.toInt(),
-                                condition: selectedCondition,
-                                feelsLike: tempVal.toInt() - 2,
-                                imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1000',
-                                hourly: [
-                                  HourlyForecast(hour: 'Now', icon: selectedCondition.toLowerCase(), temp: tempVal.toInt(), pop: '80%'),
-                                  HourlyForecast(hour: '3PM', icon: selectedCondition.toLowerCase(), temp: tempVal.toInt() - 1, pop: '60%'),
-                                  HourlyForecast(hour: '6PM', icon: 'cloud', temp: tempVal.toInt() - 2, pop: '40%'),
-                                  HourlyForecast(hour: '9PM', icon: 'cloud', temp: tempVal.toInt() - 3, pop: '20%'),
-                                ],
-                                daily: [
-                                  DailyForecast(day: 'Today', icon: selectedCondition.toLowerCase(), minTemp: tempVal.toInt() - 4, maxTemp: tempVal.toInt() + 2, rangeStart: 0.2, rangeEnd: 0.6),
-                                  DailyForecast(day: 'Mon', icon: 'cloud', minTemp: tempVal.toInt() - 5, maxTemp: tempVal.toInt() + 1, rangeStart: 0.1, rangeEnd: 0.5),
-                                  DailyForecast(day: 'Tue', icon: 'wb_sunny', minTemp: tempVal.toInt() - 3, maxTemp: tempVal.toInt() + 3, rangeStart: 0.3, rangeEnd: 0.8),
-                                ],
-                                aqi: 25,
-                                aqiDesc: 'Good',
-                                aqiLongDesc: 'Air quality index is safe.',
-                                windSpeed: 15.0,
-                                windDir: 'West',
-                                windAngle: 270.0,
-                                humidity: 70,
-                                humidityDesc: 'Moderate humidity.',
-                                visibility: 10,
-                                visibilityDesc: 'Normal clear visibility.',
-                                sunrise: '6:00 AM',
-                                sunset: '8:00 PM',
-                                moonrise: '9:00 PM',
-                                moonPhase: 'Waxing Crescent',
+                              if (cityName.isEmpty) {
+                                setDialogState(() {
+                                  errorMessage = "Please enter a valid city or location.";
+                                });
+                                return;
+                              }
+
+                              final normalizedName = LocationService.normalizeLocationName(cityName);
+
+                              // 1. Check duplicate locations
+                              final alreadyExists = widget.store.cities.any((c) =>
+                                LocationService.normalizeLocationName(c.cityName).toLowerCase() == normalizedName.toLowerCase()
                               );
-                              widget.store.addCity(newCityData);
-                              Navigator.pop(context);
-                              // Auto switch to home screen to show the newly added city
-                              widget.onCitySelected(widget.store.cities.length - 1);
-                            }
-                          },
-                          child: const Text('Add City'),
-                        ),
+                              if (alreadyExists) {
+                                setDialogState(() {
+                                  errorMessage = "This location has already been added.";
+                                });
+                                return;
+                              }
+
+                              // 2. Local validation before calling the API
+                              if (!LocationService.isValid(cityName)) {
+                                setDialogState(() {
+                                  errorMessage = "Please enter a valid city or location.";
+                                });
+                                return;
+                              }
+
+                              setDialogState(() {
+                                isSaving = true;
+                                errorMessage = null;
+                              });
+
+                              try {
+                                // 3. Call proper weather API simulation and validate the API response
+                                final newCityData = await widget.store.fetchWeather(
+                                  cityName,
+                                  temp: tempVal,
+                                  condition: selectedCondition,
+                                );
+
+                                widget.store.addCity(newCityData);
+                                Navigator.pop(context);
+                                // Auto switch to home screen to show the newly added city
+                                widget.onCitySelected(widget.store.cities.length - 1);
+                              } catch (e) {
+                                setDialogState(() {
+                                  isSaving = false;
+                                  errorMessage = e.toString().replaceAll("Exception: ", "");
+                                });
+                              }
+                            },
+                            child: const Text('Add City'),
+                          ),
                       ],
                     ),
                   ],

@@ -80,6 +80,110 @@ class WeatherData {
   });
 }
 
+class LocationService {
+  static final Set<String> _validLocations = {
+    // 195 countries
+    'afghanistan', 'albania', 'algeria', 'andorra', 'angola', 'antigua and barbuda', 'argentina', 'armenia', 'australia', 'austria', 'azerbaijan', 'bahamas', 'bahrain', 'bangladesh', 'barbados', 'belarus', 'belgium', 'belize', 'benin', 'bhutan', 'bolivia', 'bosnia and herzegovina', 'botswana', 'brazil', 'brunei', 'bulgaria', 'burkina faso', 'burundi', 'cabo verde', 'cambodia', 'cameroon', 'canada', 'central african republic', 'chad', 'chile', 'china', 'colombia', 'comoros', 'congo', 'costa rica', 'croatia', 'cuba', 'cyprus', 'czechia', 'czech republic', 'denmark', 'djibouti', 'dominica', 'dominican republic', 'east timor', 'timor-leste', 'ecuador', 'egypt', 'el salvador', 'equatorial guinea', 'eritrea', 'estonia', 'eswatini', 'swaziland', 'ethiopia', 'fiji', 'finland', 'france', 'gabon', 'gambia', 'georgia', 'germany', 'ghana', 'greece', 'grenada', 'guatemala', 'guinea', 'guinea-bissau', 'guyana', 'haiti', 'honduras', 'hungary', 'iceland', 'india', 'indonesia', 'iran', 'iraq', 'ireland', 'israel', 'italy', 'ivory coast', "côte d'ivoire", 'jamaica', 'japan', 'jordan', 'kazakhstan', 'kenya', 'kiribati', 'north korea', 'south korea', 'kosovo', 'kuwait', 'kyrgyzstan', 'laos', 'latvia', 'lebanon', 'lesotho', 'liberia', 'libya', 'liechtenstein', 'lithuania', 'luxembourg', 'madagascar', 'malawi', 'malaysia', 'maldives', 'mali', 'malta', 'marshall islands', 'mauritania', 'mauritius', 'mexico', 'micronesia', 'moldova', 'monaco', 'mongolia', 'montenegro', 'morocco', 'mozambique', 'myanmar', 'namibia', 'nauru', 'nepal', 'netherlands', 'new zealand', 'nicaragua', 'niger', 'nigeria', 'north macedonia', 'norway', 'oman', 'pakistan', 'palau', 'palestine', 'panama', 'papua new guinea', 'paraguay', 'peru', 'philippines', 'poland', 'portugal', 'qatar', 'romania', 'russia', 'rwanda', 'saint kitts and nevis', 'saint lucia', 'saint vincent and the grenadines', 'samoa', 'san marino', 'sao tome and principe', 'saudi arabia', 'senegal', 'serbia', 'seychelles', 'sierra leone', 'singapore', 'slovakia', 'slovenia', 'solomon islands', 'somalia', 'south africa', 'south sudan', 'spain', 'sri lanka', 'sudan', 'suriname', 'sweden', 'switzerland', 'syria', 'taiwan', 'tajikistan', 'tanzania', 'thailand', 'togo', 'tonga', 'trinidad and tobago', 'tunisia', 'turkey', 'turkmenistan', 'tuvalu', 'uganda', 'ukraine', 'united arab emirates', 'uae', 'united kingdom', 'uk', 'united states', 'usa', 'uruguay', 'uzbekistan', 'vanuatu', 'vatican city', 'venezuela', 'vietnam', 'yemen', 'zambia', 'zimbabwe',
+
+    // Capitals
+    'kabul', 'tirana', 'algiers', 'andorra la vella', 'luanda', "st. john's", 'buenos aires', 'yerevan', 'canberra', 'vienna', 'baku', 'nassau', 'manama', 'dhaka', 'bridgetown', 'minsk', 'brussels', 'belmopan', 'porto-novo', 'thimphu', 'sucre', 'sarajevo', 'gaborone', 'brasilia', 'bandar seri begawan', 'sofia', 'ouagadougou', 'gitega', 'praia', 'phnom penh', 'yaounde', 'ottawa', 'bangui', "n'djamena", 'santiago', 'beijing', 'bogota', 'moroni', 'brazzaville', 'kinshasa', 'san jose', 'zagreb', 'havana', 'nicosia', 'prague', 'copenhagen', 'djibouti', 'roseau', 'santo domingo', 'dili', 'quito', 'cairo', 'san salvador', 'malabo', 'asmara', 'tallinn', 'mbabane', 'addis ababa', 'suva', 'helsinki', 'paris', 'libreville', 'banjul', 'tbilisi', 'berlin', 'accra', 'athens', "st. george's", 'guatemala city', 'conakry', 'bissau', 'georgetown', 'port-au-prince', 'tegucigalpa', 'budapest', 'reykjavik', 'new delhi', 'jakarta', 'tehran', 'baghdad', 'dublin', 'jerusalem', 'rome', 'yamoussoukro', 'kingston', 'tokyo', 'amman', 'astana', 'nairobi', 'tarawa', 'pyongyang', 'seoul', 'pristina', 'kuwait city', 'bishkek', 'vientiane', 'riga', 'beirut', 'maseru', 'monrovia', 'tripoli', 'vaduz', 'vilnius', 'luxembourg', 'antananarivo', 'lilongwe', 'kuala lumpur', 'male', 'bamako', 'valletta', 'majuro', 'nouakchott', 'port louis', 'mexico city', 'palikir', 'chisinau', 'monaco', 'ulaanbaatar', 'podgorica', 'rabat', 'maputo', 'naypyidaw', 'windhoek', 'yaren', 'kathmandu', 'amsterdam', 'wellington', 'managua', 'niamey', 'abuja', 'skopje', 'oslo', 'muscat', 'islamabad', 'ngerulmud', 'east jerusalem', 'panama city', 'port moresby', 'asuncion', 'lima', 'manila', 'warsaw', 'lisbon', 'doha', 'bucharest', 'moscow', 'kigali', 'basseterre', 'castries', 'kingstown', 'apia', 'san marino', 'sao tome', 'riyadh', 'dakar', 'belgrade', 'victoria', 'freetown', 'singapore', 'bratislava', 'ljubljana', 'honiara', 'mogadishu', 'pretoria', 'bloemfontein', 'cape town', 'juba', 'madrid', 'sri jayawardenepura kotte', 'colombo', 'khartoum', 'paramaribo', 'stockholm', 'bern', 'damascus', 'taipei', 'dushanbe', 'dodoma', 'bangkok', 'lome', "nuku'alofa", 'port of spain', 'tunis', 'ankara', 'ashgabat', 'funafuti', 'kampala', 'kyiv', 'abu dhabi', 'london', 'washington', 'montevideo', 'tashkent', 'port vila', 'vatican city', 'caracas', 'hanoi', "sana'a", 'lusaka', 'harare',
+
+    // Indian States & Union Territories
+    'andhra pradesh', 'arunachal pradesh', 'assam', 'bihar', 'chhattisgarh', 'goa', 'gujarat', 'haryana', 'himachal pradesh', 'jharkhand', 'karnataka', 'kerala', 'madhya pradesh', 'maharashtra', 'manipur', 'meghalaya', 'mizoram', 'nagaland', 'odisha', 'punjab', 'rajasthan', 'sikkim', 'tamil nadu', 'telangana', 'tripura', 'uttarakhand', 'uttar pradesh', 'west bengal', 'andaman and nicobar islands', 'chandigarh', 'dadra and nagar haveli and daman and diu', 'lakshadweep', 'delhi', 'puducherry', 'jammu and kashmir', 'ladakh',
+
+    // Major Indian Cities
+    'mumbai', 'pune', 'nagpur', 'nashik', 'aurangabad', 'navi mumbai', 'thane', 'kalyan', 'dombivli', 'vasai', 'virar', 'kolkata', 'howrah', 'durgapur', 'asansol', 'siliguri', 'chennai', 'coimbatore', 'madurai', 'tiruchirappalli', 'salem', 'bengaluru', 'bangalore', 'mysore', 'hubli', 'dharwad', 'mangalore', 'belgaum', 'hyderabad', 'warangal', 'nizamabad', 'karimnagar', 'visakhapatnam', 'vijayawada', 'guntur', 'nellore', 'kurnool', 'tirupati', 'ahmedabad', 'surat', 'vadodara', 'rajkot', 'bhavnagar', 'jamnagar', 'jaipur', 'jodhpur', 'kota', 'bikaner', 'ajmer', 'udaipur', 'bhopal', 'indore', 'jabalpur', 'gwalior', 'ujjain', 'raipur', 'bilaspur', 'durg', 'patna', 'gaya', 'bhagalpur', 'muzaffarpur', 'ranchi', 'jamshedpur', 'dhanbad', 'bokaro', 'bhubaneswar', 'cuttack', 'rourkela', 'puri', 'lucknow', 'kanpur', 'ghaziabad', 'agra', 'meerut', 'varanasi', 'prayagraj', 'allahabad', 'noida', 'greater noida', 'bareilly', 'aligarh', 'moradabad', 'gorakhpur', 'jhansi', 'dehradun', 'haridwar', 'rishikesh', 'haldwani', 'shimla', 'dharamshala', 'solan', 'amritsar', 'ludhiana', 'jalandhar', 'patiala', 'bathinda', 'srinagar', 'jammu', 'leh', 'kargil', 'guwahati', 'silchar', 'dibrugarh', 'jorhat', 'itanagar', 'shillong', 'tura', 'imphal', 'kohima', 'dimapur', 'aizawl', 'agartala', 'gangtok', 'panaji', 'margao', 'vasco da gama', 'port blair', 'kavaratti', 'daman', 'diu', 'silvassa', 'karaikal', 'mahe', 'yanam',
+
+    // US States
+    'alabama', 'alaska', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'delaware', 'florida', 'georgia', 'hawaii', 'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maine', 'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi', 'missouri', 'montana', 'nebraska', 'nevada', 'new hampshire', 'new jersey', 'new mexico', 'new york', 'north carolina', 'north dakota', 'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhode island', 'south carolina', 'south dakota', 'tennessee', 'texas', 'utah', 'vermont', 'virginia', 'washington', 'west virginia', 'wisconsin', 'wyoming',
+
+    // US Cities
+    'los angeles', 'chicago', 'houston', 'phoenix', 'philadelphia', 'san antonio', 'san diego', 'dallas', 'san jose', 'austin', 'jacksonville', 'fort worth', 'columbus', 'charlotte', 'indianapolis', 'san francisco', 'seattle', 'denver', 'boston', 'el paso', 'nashville', 'detroit', 'oklahoma city', 'portland', 'las vegas', 'memphis', 'louisville', 'baltimore', 'milwaukee', 'albuquerque', 'tucson', 'fresno', 'sacramento', 'mesa', 'atlanta', 'kansas city', 'colorado springs', 'miami', 'raleigh', 'omaha', 'oakland', 'minneapolis', 'tulsa', 'wichita', 'new orleans', 'arlington', 'cleveland', 'bakersfield', 'tampa', 'honolulu', 'aurora', 'anaheim', 'santa ana', 'riverside', 'corpus christi', 'lexington', 'stockton', 'henderson', 'saint paul', "st. louis", 'st louis', 'cincinnati', 'pittsburgh', 'anchorage', 'greensboro', 'plano', 'newark', 'lincoln', 'orlando', 'irvine', 'toledo', 'jersey city', 'chula vista', 'durham', 'fort wayne', 'st. petersburg', 'st petersburg', 'laredo', 'lubbock', 'madison', 'chandler', 'buffalo', 'norfolk', 'glendale', 'reno', 'winston-salem', 'winston salem', 'hialeah', 'garland', 'chesapeake', 'irving', 'north las vegas', 'scottsdale', 'baton rouge', 'fremont', 'gilbert', 'san bernardino', 'boise', 'birmingham', 'chelsea', 'charlotte',
+
+    // Europe Major Cities
+    'berlin', 'madrid', 'rome', 'vienna', 'amsterdam', 'brussels', 'geneva', 'zurich', 'copenhagen', 'oslo', 'stockholm', 'helsinki', 'lisbon', 'dublin', 'athens', 'istanbul', 'warsaw', 'prague', 'budapest', 'munich', 'frankfurt', 'milan', 'barcelona', 'venice', 'florence', 'sofia', 'hamburg', 'lyon', 'marseille', 'birmingham', 'manchester', 'glasgow', 'seville', 'valencia', 'st. petersburg', 'kiev', 'bucharest',
+
+    // Asia Major Cities
+    'shanghai', 'shenzhen', 'guangzhou', 'hong kong', 'taipei', 'singapore', 'bangkok', 'kuala lumpur', 'manila', 'hanoi', 'ho chi minh city', 'dubai', 'abu dhabi', 'riyadh', 'jeddah', 'doha', 'tel aviv', 'jerusalem', 'colombo', 'kathmandu', 'karachi', 'lahore', 'dhaka', 'osaka', 'nagoya', 'kyoto', 'yokohama', 'incheon', 'busan', 'almaty', 'tashkent', "xi'an",
+
+    // Africa Major Cities
+    'johannesburg', 'cape town', 'nairobi', 'lagos', 'casablanca', 'marrakech', 'addis ababa', 'accra', 'dakar', 'luanda', 'algiers', 'tunis', 'alexandria', 'giza', 'khartoum', 'dar es salaam', 'abidjan', 'kampala',
+
+    // Australia and Oceania Major Cities
+    'melbourne', 'brisbane', 'perth', 'adelaide', 'hobart', 'darwin', 'auckland', 'wellington', 'christchurch', 'suva', 'port moresby', 'noumea', 'sydney',
+
+    // South America Major Cities
+    'sao paulo', 'são paulo', 'rio de janeiro', 'santiago', 'lima', 'bogota', 'bogotá', 'caracas', 'quito', 'montevideo', 'asuncion', 'asunción', 'la paz', 'medellin', 'medellín', 'cali',
+
+    // North America Major Cities
+    'toronto', 'vancouver', 'montreal', 'havana', 'san jose', 'guatemala city', 'tegucigalpa', 'san salvador', 'kingston', 'santo domingo'
+  };
+
+  static final Set<String> _commonNames = {
+    // First names & surnames (common Indian & Western)
+    'rahul', 'john', 'priya', 'amit', 'alex', 'david', 'sarah', 'emily', 'james', 'michael', 'robert', 'mary', 'jennifer', 'linda', 'elizabeth', 'william', 'joseph', 'thomas', 'charles', 'christopher', 'daniel', 'matthew', 'anthony', 'mark', 'donald', 'steven', 'paul', 'andrew', 'joshua', 'kenneth', 'kevin', 'brian', 'george', 'edward', 'ronald', 'timothy', 'jason', 'jeffrey', 'ryan', 'jacob', 'gary', 'nicholas', 'eric', 'jonathan', 'stephen', 'larry', 'justin', 'scott', 'brandon', 'benjamin', 'samuel', 'gregory', 'frank', 'alexander', 'raymond', 'patrick', 'jack', 'dennis', 'jerry', 'tyler', 'aaron', 'jose', 'adam', 'nathan', 'henry', 'douglas', 'zachary', 'peter', 'kyle', 'walter', 'harold', 'jeremy', 'ethan', 'carl', 'keith', 'roger', 'gerald', 'christian', 'terry', 'sean', 'arthur', 'austin', 'noah', 'lawrence', 'jesse', 'rohan', 'sunita', 'anil', 'geeta', 'sanjay', 'vijay', 'deepak', 'rajesh', 'karan', 'sneha', 'kriti', 'pooja', 'vikram', 'aditya', 'neha', 'divya', 'ravi', 'aarav', 'kabir', 'vihaan', 'reyansh', 'sai', 'arjun', 'ananya', 'aishwarya', 'siddharth', 'varun', 'isha', 'riya', 'alia', 'sara', 'riyah', 'diya', 'abhishek', 'sandeep', 'manish', 'vivek', 'shalini', 'rashmi', 'preeti', 'kiran', 'meena', 'anjali', 'swati', 'tanvi', 'kavita', 'babita', 'nisha', 'ritesh', 'ashish', 'sumit', 'sunil', 'harish', 'manoj', 'ajay', 'ramesh', 'suresh', 'mahesh', 'dinesh', 'naresh', 'vinod', 'pramod', 'pradeep', 'pankaj', 'atul', 'deepika', 'priyanka', 'katrina', 'kareena', 'ranbir', 'ranveer', 'salman', 'shahrukh', 'aamir', 'hrithik', 'akshay', 'sidharth', 'raj', 'tina', 'simran', 'smith', 'johnson', 'williams', 'brown', 'jones', 'miller', 'davis', 'garcia', 'rodriguez', 'wilson', 'martinez', 'anderson', 'taylor', 'hernandez', 'moore', 'martin', 'jackson', 'thompson', 'white', 'lopez', 'lee', 'gonzalez', 'harris', 'clark', 'lewis', 'robinson', 'walker', 'perez', 'hall', 'young', 'allen', 'sanchez', 'wright', 'king', 'green', 'baker', 'adams', 'nelson', 'hill', 'ramirez', 'campbell', 'mitchell', 'roberts', 'carter', 'phillips', 'evans', 'turner', 'torres', 'parker', 'collins', 'edwards', 'stewart', 'flores', 'morris', 'nguyen', 'murphy', 'rivera', 'cook', 'rogers', 'morgan', 'peterson', 'cooper', 'reed', 'bailey', 'bell', 'gomez', 'kelly', 'howard', 'ward', 'cox', 'diaz', 'richardson', 'wood', 'watson', 'brooks', 'bennett', 'gray', 'reyes', 'cruz', 'hughes', 'price', 'myers', 'long', 'foster', 'sanders', 'ross', 'morales', 'powell', 'sullivan', 'russell', 'ortiz', 'jenkins', 'gutierrez', 'perry', 'butler', 'barnes', 'fisher'
+  };
+
+  static String normalizeLocationName(String location) {
+    final cleaned = location.trim().replaceAll(RegExp(r'\s+'), ' ');
+    if (cleaned.isEmpty) return '';
+    return cleaned.split(' ').map((word) {
+      if (word.isEmpty) return '';
+      final lower = word.toLowerCase();
+      if (lower == 'usa' || lower == 'uk' || lower == 'uae') {
+        return word.toUpperCase();
+      }
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }).join(' ');
+  }
+
+  static bool isValid(String location) {
+    // 1. Normalize the input
+    final trimmed = location.trim().replaceAll(RegExp(r'\s+'), ' ');
+    if (trimmed.isEmpty) return false;
+    final lower = trimmed.toLowerCase();
+
+    // 2. Check allow list
+    if (_validLocations.contains(lower)) {
+      return true;
+    }
+
+    // 3. Check block list
+    if (_commonNames.contains(lower)) {
+      return false;
+    }
+    final words = lower.split(RegExp(r"[\s,\-\.\'\(\)]+")).where((w) => w.isNotEmpty).toList();
+    for (var word in words) {
+      if (_commonNames.contains(word)) {
+        return false;
+      }
+    }
+
+    // 4. Perform character validation (using exclusion strategy)
+    if (RegExp(r'\d').hasMatch(trimmed)) return false;
+    final disallowedPattern = RegExp(r'[0-9@!#\$%^&\*_+=\[\]{}|\\\/;:"<>?`~]');
+    if (disallowedPattern.hasMatch(trimmed)) return false;
+
+    if (trimmed.length < 2 || trimmed.length > 50) return false;
+
+    // 5. Detect obvious keyboard patterns and gibberish
+    final gibberishPatterns = ['qwerty', 'asdfgh', 'zxcvbn', 'qwert', 'asdf', 'yuiop', 'hjkl', 'bnm'];
+    for (var pat in gibberishPatterns) {
+      if (lower.contains(pat)) {
+        return false;
+      }
+    }
+
+    if (RegExp(r'(.)\1{4,}').hasMatch(trimmed)) return false;
+
+    // Must contain some letters (not purely punctuation symbols)
+    final onlyPunctuation = RegExp(r"^[\s,\-\.\'\(\)]+$");
+    if (onlyPunctuation.hasMatch(trimmed)) return false;
+
+    return true;
+  }
+}
+
 class WeatherStore extends ChangeNotifier {
   // Unit settings
   bool _useFahrenheit = false;
@@ -123,7 +227,8 @@ class WeatherStore extends ChangeNotifier {
   void addCity(WeatherData data) {
     // Avoid duplicates
     final existingIndex = _cities.indexWhere(
-      (c) => c.cityName.toLowerCase() == data.cityName.toLowerCase()
+      (c) => LocationService.normalizeLocationName(c.cityName).toLowerCase() == 
+             LocationService.normalizeLocationName(data.cityName).toLowerCase()
     );
     if (existingIndex != -1) {
       _selectedCityIndex = existingIndex;
@@ -132,6 +237,73 @@ class WeatherStore extends ChangeNotifier {
       _selectedCityIndex = _cities.length - 1;
     }
     notifyListeners();
+  }
+
+  Future<WeatherData> fetchWeather(
+    String cityName, {
+    required double temp,
+    required String condition,
+  }) async {
+    // 1. Normalize input
+    final trimmedCity = cityName.trim().replaceAll(RegExp(r'\s+'), ' ');
+    if (trimmedCity.isEmpty) {
+      throw Exception("Please enter a valid city or location.");
+    }
+    final normalizedName = LocationService.normalizeLocationName(trimmedCity);
+
+    // 2. Check duplicate locations
+    final alreadyExists = _cities.any((c) =>
+      LocationService.normalizeLocationName(c.cityName).toLowerCase() == normalizedName.toLowerCase()
+    );
+    if (alreadyExists) {
+      throw Exception("This location has already been added.");
+    }
+
+    // 3. Perform other validation (allow list, block list, etc.)
+    if (!LocationService.isValid(trimmedCity)) {
+      throw Exception("Please enter a valid city or location.");
+    }
+
+    // Simulate network call latency
+    await Future.delayed(const Duration(milliseconds: 600));
+
+    // 4. Validate API response
+    if (normalizedName.isEmpty || !LocationService.isValid(normalizedName)) {
+      throw Exception("Please enter a valid city or location.");
+    }
+
+    return WeatherData(
+      cityName: normalizedName,
+      temp: temp.toInt(),
+      condition: condition,
+      feelsLike: temp.toInt() - 2,
+      imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1000',
+      hourly: [
+        HourlyForecast(hour: 'Now', icon: condition.toLowerCase(), temp: temp.toInt(), pop: '80%'),
+        HourlyForecast(hour: '3PM', icon: condition.toLowerCase(), temp: temp.toInt() - 1, pop: '60%'),
+        HourlyForecast(hour: '6PM', icon: 'cloud', temp: temp.toInt() - 2, pop: '40%'),
+        HourlyForecast(hour: '9PM', icon: 'cloud', temp: temp.toInt() - 3, pop: '20%'),
+      ],
+      daily: [
+        DailyForecast(day: 'Today', icon: condition.toLowerCase(), minTemp: temp.toInt() - 4, maxTemp: temp.toInt() + 2, rangeStart: 0.2, rangeEnd: 0.6),
+        DailyForecast(day: 'Mon', icon: 'cloud', minTemp: temp.toInt() - 5, maxTemp: temp.toInt() + 1, rangeStart: 0.1, rangeEnd: 0.5),
+        DailyForecast(day: 'Tue', icon: 'wb_sunny', minTemp: temp.toInt() - 3, maxTemp: temp.toInt() + 3, rangeStart: 0.3, rangeEnd: 0.8),
+      ],
+      aqi: 25,
+      aqiDesc: 'Good',
+      aqiLongDesc: 'Air quality index is safe.',
+      windSpeed: 15.0,
+      windDir: 'West',
+      windAngle: 270.0,
+      humidity: 70,
+      humidityDesc: 'Moderate humidity.',
+      visibility: 10,
+      visibilityDesc: 'Normal clear visibility.',
+      sunrise: '6:00 AM',
+      sunset: '8:00 PM',
+      moonrise: '9:00 PM',
+      moonPhase: 'Waxing Crescent',
+    );
   }
 
   WeatherStore() {
